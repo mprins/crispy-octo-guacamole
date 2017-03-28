@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>nl.b3p</groupId>
   <artifactId>crispy-octo-guacamole</artifactId>
-  <version>1.2</version>
+  <version>1.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>crispy-octo-guacamole</name>
   <description>Or how to release-deploy to a local repo...</description>
@@ -13,7 +13,7 @@
     <url>https://github.com/B3Partners/${project.artifactId}/</url>
     <connection>scm:git:git@github.com:B3Partners/${project.artifactId}.git</connection>
     <developerConnection>scm:git:git@github.com:B3Partners/${project.artifactId}.git</developerConnection>
-    <tag>crispy-octo-guacamole-1.2</tag>
+    <tag>HEAD</tag>
   </scm>
   <ciManagement />
   <issueManagement>
