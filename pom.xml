@@ -217,7 +217,7 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
+    <!--profiles>
         <profile>
             <id>release</id>
             <distributionManagement>
@@ -227,5 +227,5 @@
                 </repository>
             </distributionManagement>
         </profile>
-    </profiles>
+    </profiles-->
 </project>
