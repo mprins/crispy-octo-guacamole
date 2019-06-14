@@ -1,5 +1,5 @@
 # crispy-octo-guacamole
-Or how to release-deploy to a local repo...
+Or how to release-deploy to a private repo...
 
 
 
