@@ -23,6 +23,9 @@ pipeline {
                     }
                 }
                 stages {
+					tools {
+						jdk "${JDK}"
+					}
                     stage('Prepare') {
                         steps {
                             echo "Do Prepare for ${JDK} - ${DATABASE}"
