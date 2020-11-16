@@ -2,7 +2,7 @@ pipeline {
     agent none
     tools {
         maven 'Maven CURRENT'
-        jdk "${JDK}"
+        // jdk "${JDK}"
     }
     options {
         timeout(time: 1, unit: 'HOURS') 
@@ -25,7 +25,7 @@ pipeline {
                 stages {
                     stage('Prepare') {
                         steps {
-                            echo "Do Prepare for ${PLATFORM} - ${BROWSER}"
+                            echo "Do Prepare for ${JDK} - ${DATABASE}"
                         }
                     }
                     stage('Build') {
@@ -40,8 +40,12 @@ pipeline {
                             sh "mvn -e clean test -B"
                         }
                         post {
-                            success {}
-                            failure {}
+                            success {
+                                echo "Testing ${JDK} - ${DATABASE} passed"
+                            }
+                            failure {
+                                echo "Testing ${JDK} - ${DATABASE} failed"
+                            }
                             always {
                                 junit 'target/surefire-reports/*.xml'
                             }
