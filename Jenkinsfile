@@ -39,6 +39,13 @@ pipeline {
                             echo "Do Test for ${JDK} - ${DATABASE}"
                             sh "mvn -e clean test -B"
                         }
+                        post {
+                            success {}
+                            failure {}
+                            always {
+                                junit 'target/surefire-reports/*.xml'
+                            }
+                        }
                     }
                 }
             }
