@@ -4,12 +4,11 @@ pipeline {
         timeout(time: 1, unit: 'HOURS') 
         timestamps ()
     }
+    tools {
+        maven 'Maven CURRENT'
+    }
     stages {
         stage('build and test') {
-                tools {
-                    maven 'Maven CURRENT'
-                    jdk "${JDK}"
-                }
             matrix {
                 agent any
                 axes {
@@ -29,6 +28,9 @@ pipeline {
                         }
                     }
                     stage('Build') {
+                        tools {
+                            jdk "${JDK}"
+                        }
                         steps {
                             echo "Do Build for ${JDK} - ${DATABASE}"
                             sh "mvn clean install -U -DskipTests -Dtest.skip.integrationtests=true -B -V -fae -q"
