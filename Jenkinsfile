@@ -1,5 +1,13 @@
 pipeline {
     agent none
+    tools {
+        maven 'Maven CURRENT'
+        jdk "${JDK}"
+    }
+    options {
+        timeout(time: 1, unit: 'HOURS') 
+        timestamps ()
+    }
     stages {
         stage('build and test') {
             matrix {
@@ -18,14 +26,12 @@ pipeline {
                     stage('Prepare') {
                         steps {
                             echo "Do Prepare for ${PLATFORM} - ${BROWSER}"
-                            checkout scm
                         }
                     }
                     stage('Build') {
                         steps {
                             echo "Do Build for ${JDK} - ${DATABASE}"
                             sh "mvn clean install -U -DskipTests -Dtest.skip.integrationtests=true -B -V -fae -q"
-                            sh "mvn -e clean test -B"
                         }
                     }
                     stage('Test') {
