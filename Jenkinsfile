@@ -1,15 +1,15 @@
 pipeline {
     agent none
-    tools {
-        maven 'Maven CURRENT'
-        // jdk "${JDK}"
-    }
     options {
         timeout(time: 1, unit: 'HOURS') 
         timestamps ()
     }
     stages {
         stage('build and test') {
+                tools {
+                    maven 'Maven CURRENT'
+                    jdk "${JDK}"
+                }
             matrix {
                 agent any
                 axes {
@@ -23,9 +23,6 @@ pipeline {
                     }
                 }
                 stages {
-					tools {
-						jdk "${JDK}"
-					}
                     stage('Prepare') {
                         steps {
                             echo "Do Prepare for ${JDK} - ${DATABASE}"
