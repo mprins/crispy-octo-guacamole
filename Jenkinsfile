@@ -1,35 +1,39 @@
-timestamps {
-    node {
-
-        properties([
-            [$class: 'jenkins.model.BuildDiscarderProperty', strategy: [$class: 'LogRotator',
-                artifactDaysToKeepStr: '5',
-                artifactNumToKeepStr: '5',
-                daysToKeepStr: '15',
-                numToKeepStr: '5']
-            ]]);
-
-        final def jdks = ['JDK8', 'OpenJDK11']
-
-        stage("Prepare") {
-             checkout scm
-        }
-
-        jdks.eachWithIndex { jdk, indexOfJdk ->
-            final String jdkTestName = jdk.toString()
-
-            withEnv(["JAVA_HOME=${ tool jdkTestName }", "PATH+MAVEN=${tool 'Maven 3.6.0'}/bin:${env.JAVA_HOME}/bin"]) {
-
-                println "JDK: ${jdkTestName}"
-
-                stage("Build: ${jdkTestName}") {
-                    echo "Building branch: ${env.BRANCH_NAME}"
-                    sh "mvn clean install -U -DskipTests -Dtest.skip.integrationtests=true -B -V -fae -q"
+pipeline {
+    agent none
+    stages {
+        stage('build and test') {
+            matrix {
+                agent any
+                axes {
+                    axis {
+                        name 'JDK'
+                        values 'JDK8', 'OpenJDK11'
+                    }
+                    axis {
+                        name 'DATABASE'
+                        values 'PostgreSQL', 'Oracle', 'MSSQL'
+                    }
                 }
-
-                stage("Test: ${jdkTestName}") {
-                    echo "Running unit tests"
-                    sh "mvn -e clean test -B"
+                stages {
+                    stage('Prepare') {
+                        steps {
+                            echo "Do Prepare for ${PLATFORM} - ${BROWSER}"
+                            checkout scm
+                        }
+                    }
+                    stage('Build') {
+                        steps {
+                            echo "Do Build for ${JDK} - ${DATABASE}"
+                            sh "mvn clean install -U -DskipTests -Dtest.skip.integrationtests=true -B -V -fae -q"
+                            sh "mvn -e clean test -B"
+                        }
+                    }
+                    stage('Test') {
+                        steps {
+                            echo "Do Test for ${JDK} - ${DATABASE}"
+                            sh "mvn -e clean test -B"
+                        }
+                    }
                 }
             }
         }
