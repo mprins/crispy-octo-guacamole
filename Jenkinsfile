@@ -13,7 +13,7 @@ pipeline {
                 agent any
                 axes {
                     axis {
-                        name 'JDK'
+                        name 'JAVA'
                         values 'JDK8', 'OpenJDK11'
                     }
                     axis {
@@ -24,29 +24,32 @@ pipeline {
                 stages {
                     stage('Prepare') {
                         steps {
-                            echo "Do Prepare for ${JDK} - ${DATABASE}"
+                            echo "Do Prepare for ${JAVA} - ${DATABASE}"
                         }
                     }
                     stage('Build') {
                         tools {
-                            jdk "${JDK}"
+                            jdk "${JAVA}"
                         }
                         steps {
-                            echo "Do Build for ${JDK} - ${DATABASE}"
+                            echo "Do Build for ${JAVA} - ${DATABASE}"
                             sh "mvn clean install -U -DskipTests -Dtest.skip.integrationtests=true -B -V -fae -q"
                         }
                     }
                     stage('Test') {
+                        tools {
+                            jdk "${JAVA}"
+                        }
                         steps {
-                            echo "Do Test for ${JDK} - ${DATABASE}"
+                            echo "Do Test for ${JAVA} - ${DATABASE}"
                             sh "mvn -e clean test -B"
                         }
                         post {
                             success {
-                                echo "Testing ${JDK} - ${DATABASE} passed"
+                                echo "Testing ${JAVA} - ${DATABASE} passed"
                             }
                             failure {
-                                echo "Testing ${JDK} - ${DATABASE} failed"
+                                echo "Testing ${JAVA} - ${DATABASE} failed"
                             }
                             always {
                                 junit 'target/surefire-reports/*.xml'
