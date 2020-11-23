@@ -20,6 +20,9 @@ pipeline {
                         name 'DATABASE'
                         values 'PostgreSQL', 'Oracle', 'MSSQL'
                     }
+                    axis {
+                        jdk ('JDK8', 'OpenJDK11')
+                    }
                 }
                 stages {
                     stage('Prepare') {
@@ -45,7 +48,7 @@ pipeline {
                         }
                         steps {
                             echo "Do Test for ${JAVA} - ${DATABASE}"
-                            sh "mvn -e clean test -B"
+                            sh "mvn -e clean test -B -V"
                         }
                         post {
                             success {
