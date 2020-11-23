@@ -29,7 +29,7 @@ pipeline {
                     }
                     stage('Build') {
                         steps {
-                            withEnv(["JAVA_HOME=${tool ${JAVA}", "PATH=${tool ${JAVA}/bin:${env.PATH}"]) {
+                            withEnv(["JAVA_HOME=${tool ${JAVA}}", "PATH=${tool ${JAVA}}/bin:${env.PATH}"]) {
                                 echo "Do Build for ${JAVA} - ${DATABASE}"
                                 sh "mvn clean install -U -DskipTests -Dtest.skip.integrationtests=true -B -V -fae -q"
                             }
