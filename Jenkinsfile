@@ -13,7 +13,6 @@ pipeline {
                 agent any
                 axes {
                     axis {
-                        type 'JDK'
                         name 'JAVA'
                         values 'JDK8', 'OpenJDK11'
                     }
@@ -29,6 +28,10 @@ pipeline {
                         }
                     }
                     stage('Build') {
+                        tools {
+                            jdk "${JAVA}"
+                            maven 'Maven OLD'
+                        }
                         steps {
                             // withEnv(["JAVA_HOME=${tool ${JAVA}}", "PATH=${tool ${JAVA}}/bin:${env.PATH}"]) {
                                 echo "Do Build for ${JAVA} - ${DATABASE}"
