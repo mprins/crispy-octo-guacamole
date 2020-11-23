@@ -28,12 +28,11 @@ pipeline {
                         }
                     }
                     stage('Build') {
-                        tools {
-                            jdk "${JAVA}"
-                        }
                         steps {
-                            echo "Do Build for ${JAVA} - ${DATABASE}"
-                            sh "mvn clean install -U -DskipTests -Dtest.skip.integrationtests=true -B -V -fae -q"
+                            withEnv(["JAVA_HOME=${tool ${JAVA}", "PATH=${tool ${JAVA}/bin:${env.PATH}"]) {
+                                echo "Do Build for ${JAVA} - ${DATABASE}"
+                                sh "mvn clean install -U -DskipTests -Dtest.skip.integrationtests=true -B -V -fae -q"
+                            }
                         }
                     }
                     stage('Test') {
