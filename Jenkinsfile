@@ -20,10 +20,6 @@ pipeline {
                         name 'DATABASE'
                         values 'PostgreSQL', 'Oracle', 'MSSQL'
                     }
-                    axis {
-                        jdk 
-                        values 'JDK8', 'OpenJDK11'
-                    }
                 }
                 stages {
                     stage('Prepare') {
