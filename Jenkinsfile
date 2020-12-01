@@ -21,7 +21,8 @@ pipeline {
                         values 'PostgreSQL', 'Oracle', 'MSSQL'
                     }
                     axis {
-                        jdk ('JDK8', 'OpenJDK11')
+                        jdk 
+                        values 'JDK8', 'OpenJDK11'
                     }
                 }
                 stages {
