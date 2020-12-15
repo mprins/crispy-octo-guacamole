@@ -14,7 +14,7 @@ pipeline {
                 axes {
                     axis {
                         name 'JAVA'
-                        values 'JDK8', 'OpenJDK11'
+                        values 'OpenJDK8', 'OpenJDK11'
                     }
                     axis {
                         name 'DATABASE'
@@ -51,6 +51,7 @@ pipeline {
                         steps {
                             echo "Do Test for ${JAVA} - ${DATABASE}"
                             sh 'java -version'
+                            sh "mvn help:effective-settings"
                             sh "mvn -e clean test -B -V"
                         }
                         post {
