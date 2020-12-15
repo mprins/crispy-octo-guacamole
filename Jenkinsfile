@@ -8,7 +8,7 @@ timestamps {
             numToKeepStr: '5']
         ]]);
 
-    final def jdks = ['OpenJDK11','OpenJDK8']
+    final def jdks = ['OpenJDK8']
 
     node {
         stage('Prepare') {
